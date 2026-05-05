@@ -7,8 +7,8 @@ import (
 
 func main() {
 	servemux := http.NewServeMux()
-
-	server := http.Server{}
+	servemux.Handle("/", http.FileServer(http.Dir(".")))
+	server := &http.Server{}
 	server.Addr = ":8080"
 	server.Handler = servemux
 
