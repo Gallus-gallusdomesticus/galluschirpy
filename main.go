@@ -6,11 +6,13 @@ import (
 )
 
 func main() {
-	servemux := http.NewServeMux()
-	servemux.Handle("/", http.FileServer(http.Dir(".")))
+	mux := http.NewServeMux()
+	mux.Handle("/app/", http.StripPrefix("/app", http.FileServer(http.Dir("."))))
 	server := &http.Server{}
 	server.Addr = ":8080"
-	server.Handler = servemux
+	server.Handler = mux
+
+	mux.HandleFunc("/healthz", handlerReadiness)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal(err)
