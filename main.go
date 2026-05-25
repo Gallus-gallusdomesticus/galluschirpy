@@ -20,9 +20,9 @@ func main() {
 	server.Addr = ":" + port
 	server.Handler = mux
 
-	mux.HandleFunc("/healthz", handlerReadiness)
-	mux.HandleFunc("/metrics", apiCfg.handlerCounter)
-	mux.HandleFunc("/reset", apiCfg.handlerReset)
+	mux.HandleFunc("GET /api/healthz", handlerReadiness)
+	mux.HandleFunc("GET /api/metrics", apiCfg.handlerCounter)
+	mux.HandleFunc("POST /api/reset", apiCfg.handlerReset)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal(err)
